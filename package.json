@@ -1,0 +1,61 @@
+{
+  "name": "mcp-agent-lint",
+  "version": "0.1.0",
+  "description": "Lint an MCP server the way an AI agent experiences it: tool descriptions, parameter docs, annotations, and response shape (no inline base64, bounded size, working links).",
+  "type": "module",
+  "license": "MIT",
+  "author": "Moomooti",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Moomooti/mcp-agent-lint.git"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "lint",
+    "llm",
+    "agent",
+    "cli"
+  ],
+  "bin": {
+    "mcp-agent-lint": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "docs"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "eslint": "^10.14.0",
+    "globals": "^16.5.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^4.1.12"
+  }
+}
