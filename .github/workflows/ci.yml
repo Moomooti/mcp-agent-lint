@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Audit runtime dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test (unit, in-memory server, stdio and HTTP CLI)
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # The published bin must work from a packed tarball, not just from the repo.
+      - name: Pack and run the installed CLI
+        run: |
+          npm pack
+          npm install -g ./mcp-agent-lint-*.tgz
+          mcp-agent-lint --version
+          mcp-agent-lint --stdio -- node tests/fixtures/stdio-server.mjs good
+          if mcp-agent-lint --stdio -- node tests/fixtures/stdio-server.mjs bad; then
+            echo "expected lint errors on the bad fixture" && exit 1
+          fi
