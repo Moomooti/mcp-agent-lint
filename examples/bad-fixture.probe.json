@@ -1,0 +1,1 @@
+{ "calls": [ { "tool": "throw poop!", "arguments": {} }, { "tool": "getStatus", "arguments": {} } ] }

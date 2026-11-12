@@ -1,0 +1,10 @@
+{
+  "calls": [
+    { "tool": "check_status", "arguments": { "room_code": "lint", "nickname": "bot" } },
+    { "tool": "check_dex", "arguments": { "room_code": "lint", "nickname": "bot" } },
+    { "tool": "throw_poop", "arguments": { "room_code": "lint", "nickname": "bot", "target_nickname": "friend" } },
+    { "tool": "flush_toilet", "arguments": { "room_code": "lint", "nickname": "friend" } },
+    { "tool": "select_skin", "arguments": { "room_code": "lint", "nickname": "bot" } },
+    { "tool": "throw_poop", "arguments": { "room_code": "", "nickname": "bot" }, "expectError": true }
+  ]
+}
